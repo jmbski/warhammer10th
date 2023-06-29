@@ -1,0 +1,26 @@
+<div class="top-nav">
+    <p-button (click)="sidebarVisible = true" label="Units" icon="pi pi-arrow-right"
+        [styleClass]="'relative left-0 top-0 h-full'" [style]="{width: 'fit-content'}"></p-button>
+    <!-- <p-dropdown [options]="dataSheets" optionLabel="unit_name" [(ngModel)]="selectedSheet" appendTo="body"></p-dropdown> -->
+
+
+    <p-autoComplete [(ngModel)]="selectedArmy" [emptyMessage]="'Select Army'" [suggestions]="filteredArmies"
+        field="name" (completeMethod)="filterArmies($event)" (ngModelChange)="clearSelectedSheet()"></p-autoComplete>
+</div>
+<p-sidebar [(visible)]="sidebarVisible">
+    <!-- <p-autoComplete [(ngModel)]="selectedSheet" [emptyMessage]="'Select Datasheet'" [suggestions]="filteredSheets"
+        field="unit_name" (completeMethod)="filterSheetsByName($event)"></p-autoComplete> -->
+    <input pInputText [(ngModel)]="datasheetTextBox" class="w-full">
+    <div class="flex flex-column">
+        <div *ngFor="let sheet of sideBarDatasheets" class="unit-selector" pRipple
+            (click)="updateSelectedDatasheet(sheet)">
+            {{sheet.unit_name}}
+        </div>
+    </div>
+</p-sidebar>
+
+<data-card *ngIf="selectedSheet" [dataSheet]="selectedSheet"
+    (datasheetEvent)="updateSelectedDatasheet($event)"></data-card>
+<!-- <ng-container *ngFor="let datasheet of dataSheets">
+    <data-card [dataSheet]="datasheet"></data-card>
+</ng-container> -->
