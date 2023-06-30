@@ -1,18 +1,25 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Army, DataSheet, ListItem, Profile, Weapon } from '../data/types';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import {
+  Army,
+  DataObject,
+  DataSheet,
+  ListItem,
+  Profile,
+  Weapon
+} from "../data/types";
 import {
   AllDataSheets,
   AllProfiles,
   AllWeapons,
   ArmyData,
   ArmyOptions,
-  LoadingSubject,
-} from '../app.component';
-import { BehaviorSubject } from 'rxjs';
+  LoadingSubject
+} from "../app.component";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root"
 })
 export class DataService {
   constructor(private http: HttpClient) {}
@@ -28,7 +35,7 @@ export class DataService {
             if (data) {
               const army: Army = new Army(data);
               if (army) {
-                const armyData = ArmyData.getValue();
+                const armyData: DataObject = ArmyData.getValue();
                 armyData[armyName] = army;
                 Object.keys(army).forEach((unitName) => {
                   const allUnits: any = AllDataSheets.getValue();
@@ -39,7 +46,7 @@ export class DataService {
                 const options: ListItem[] = ArmyOptions.getValue();
                 options.push({
                   name: armyName,
-                  value: armyName,
+                  value: armyName
                 });
                 ArmyOptions.next(options.slice());
               }
@@ -56,9 +63,9 @@ export class DataService {
           resolve(true);
         },
         error: (err) => {
-          console.error(err, 'load()', 'error loading config');
+          console.error(err, "load()", "error loading config");
           reject(false);
-        },
+        }
       });
     });
   }
@@ -67,13 +74,13 @@ export class DataService {
     let currentData: any[] = [];
     let subject: BehaviorSubject<any> | undefined = undefined;
     switch (sourceName) {
-      case 'weapon':
+      case "weapon":
         subject = AllWeapons;
         break;
-      case 'profile':
+      case "profile":
         subject = AllProfiles;
         break;
-      case 'datasheet':
+      case "datasheet":
         subject = AllDataSheets;
         break;
     }
@@ -87,7 +94,7 @@ export class DataService {
 
   public reviver(key: string, value: any) {
     let result: any = value;
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       try {
         const parsed: any = JSON.parse(value);
         if (parsed) {
@@ -95,23 +102,25 @@ export class DataService {
           // only Weapon class has the property category
           if (result.category) {
             result = new Weapon(result);
-            DataService.addItemToGlobalLists(result, 'weapon');
+            DataService.addItemToGlobalLists(result, "weapon");
           }
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      }
     }
-    if (typeof value === 'object') {
+    if (typeof value === "object") {
       // only Profile class has movement property
 
       if (result.movement) {
         result = new Profile(result);
         result.title = key;
-        DataService.addItemToGlobalLists(result, 'profile');
+        DataService.addItemToGlobalLists(result, "profile");
       }
       // only DataSheet class has unit_name property
       else if (result.unit_name) {
         result = new DataSheet(result);
-        DataService.addItemToGlobalLists(result, 'datasheet');
+        DataService.addItemToGlobalLists(result, "datasheet");
       }
     }
     return result;

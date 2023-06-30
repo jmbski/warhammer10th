@@ -2,7 +2,7 @@
 *.jpg
 *.png
 *.pdf
-
+.angular
 # Compiled output
 /dist
 /tmp
