@@ -1,0 +1,15 @@
+<IfModule mod_ssl.c>    
+    <VirtualHost _default_:443>    
+        ServerName warskald.com
+        ServerAlias www.warskald.com
+        ServerAdmin stirgejr@gmail.com
+
+        DocumentRoot /var/www/warskald.com  
+
+        SSLEngine on    
+        SSLCertificateFile /etc/ssl/certs/certificate.crt
+        SSLCertificateKeyFile /etc/ssl/private/private.key
+        SSLCertificateChainFile /etc/ssl/certs/ca-bundle.crt
+        
+    </VirtualHost>    
+</IfModule>

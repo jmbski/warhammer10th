@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 //@import './assets/themes/lara-blue-theme.css';
-@import './assets/themes/viva-dark-theme.scss';
+@import "./assets/themes/viva-dark-theme.scss";
 //@import './assets/themes/mdc-indigo-theme.css';
 //@import 'primeng/resources/themes/bootstrap4-dark-blue/theme.css';
 //@import 'primeng/resources/themes/arya-blue/theme.css';
@@ -12,150 +12,166 @@
 } */
 
 .stat-box {
-    height: fit-content;
-    width: fit-content;
-    min-height: 1.4rem;
-    min-width: 1.4rem;
-    //border-radius: 3px;
+  height: fit-content;
+  width: fit-content;
+  min-height: 1.4rem;
+  min-width: 1.4rem;
+  //border-radius: 3px;
 
-    -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 70%, 70% 100%, 30% 100%, 0 100%, 0% 30%);
-    clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 70%, 70% 100%, 30% 100%, 0 100%, 0% 30%);
-    background-color: gray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 .2rem;
-    box-shadow: 5px 5px 0px 5px black;
+  -webkit-clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 0,
+    100% 70%,
+    70% 100%,
+    30% 100%,
+    0 100%,
+    0% 30%
+  );
+  clip-path: polygon(
+    30% 0%,
+    70% 0%,
+    100% 0,
+    100% 70%,
+    70% 100%,
+    30% 100%,
+    0 100%,
+    0% 30%
+  );
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.2rem;
+  box-shadow: 5px 5px 0px 5px black;
 }
 
 .h-bar {
-    height: 2rem;
-    position: relative;
-    left: 0;
-    right: 0;
-    background-color: var(--surface-100) !important;
-    display: flex;
-    align-items: center;
-    padding: 0 !important;
-    padding-left: 1rem !important;
-    margin: 1rem 0px;
-    box-shadow: 5px 5px 2px 0px #2A2A2A;
-    border-radius: 0 !important;
+  height: 2rem;
+  position: relative;
+  left: 0;
+  right: 0;
+  background-color: var(--surface-100) !important;
+  display: flex;
+  align-items: center;
+  padding: 0 !important;
+  padding-left: 1rem !important;
+  margin: 1rem 0px;
+  box-shadow: 5px 5px 2px 0px #2a2a2a;
+  border-radius: 0 !important;
 }
 
 .h-bar-title {
-    position: absolute !important;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 1rem;
-    transition: all .3s ease;
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  transition: all 0.3s ease;
 }
 
 .h-bar-title:hover {
-    background-color: var(--surface-500);
+  background-color: var(--surface-500);
 }
 
 .weapon-profile {
-    padding-left: 1rem;
+  padding-left: 1rem;
 }
 
 .keywords {
-    font-weight: 700;
-    color: var(--surface-500);
+  font-weight: 700;
+  color: var(--surface-500);
 }
 
 .keyword {
-    font-weight: 600;
-    transition: all .3s ease;
-    padding-left: 1rem;
-    color: var(--surface-400);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding-left: 1rem;
+  color: var(--surface-400);
 }
 
 .header-footer-separated {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .keyword:hover {
-    color: white;
-    text-shadow: 0px 0px 5px #AAAAFF;
+  color: white;
+  text-shadow: 0px 0px 5px #aaaaff;
 }
 
 .abilities {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .list-abilities {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .p-panel-toggleable.p-panel-expanded .p-toggleable-content:not(.ng-animating) {
-    overflow: hidden !important;
+  overflow: hidden !important;
 }
 
 .p-panel .p-panel-content {
-    padding-top: 1px; // this is so the little area above the data shows as the content background instead of the header background
+  padding-top: 1px; // this is so the little area above the data shows as the content background instead of the header background
 }
 
 .ability-column {
-
-    ul {
-        border: 1px solid var(--surface-900);
-        border-radius: 5px;
-        padding: 2rem;
-    }
+  ul {
+    border: 1px solid var(--surface-900);
+    border-radius: 5px;
+    padding: 2rem;
+  }
 }
 
 .rounded-highlight-border {
-    border: 1px solid var(--surface-900);
-    border-radius: 5px;
-    padding: .5rem;
+  border: 1px solid var(--surface-900);
+  border-radius: 5px;
+  padding: 0.5rem;
 }
 
 .top-nav {
-    position: relative;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 60px;
-    background-color: var(--surface-300);
-    box-shadow: inset 0px -5px 10px 0px black;
-    padding-left: .5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 60px;
+  background-color: var(--surface-300);
+  box-shadow: inset 0px -5px 10px 0px black;
+  padding-left: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {
-    .p-sidebar {
-        width: 100vw !important;
-    }
+  .p-sidebar {
+    width: 100vw !important;
+  }
 }
 
 .unit-selector {
-    background-color: var(--surface-300);
-    border-radius: 5px;
-    padding: .5rem;
-    margin: .5rem 0;
-    transition: all .3s ease;
-    box-shadow: -2px 2px 0px 2px black;
-    font-family: Poppins, sans-serif;
+  background-color: var(--surface-300);
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  transition: all 0.3s ease;
+  box-shadow: -2px 2px 0px 2px black;
+  font-family: Poppins, sans-serif;
 }
 
 .unit-selector:hover {
-    background-color: var(--surface-500);
-    text-shadow: 0 0 10px var(--surface-800);
+  background-color: var(--surface-500);
+  text-shadow: 0 0 10px var(--surface-800);
 }

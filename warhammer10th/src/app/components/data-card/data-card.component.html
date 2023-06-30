@@ -1,211 +1,274 @@
 <ng-container *ngIf="unit_name != '' && unit_name != undefined">
-    <p-panel [toggleable]="true">
-        <ng-template pTemplate="header">
-            <div class="flex flex-row justify-content-between align-items-center w-full">
-                <div>
-                    <h3>{{unit_name}}</h3>
-                </div>
+  <p-panel [toggleable]="true">
+    <ng-template pTemplate="header">
+      <div
+        class="flex flex-row justify-content-between align-items-center w-full"
+      >
+        <div>
+          <h3>{{ unit_name }}</h3>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-accordion [multiple]="true">
+        <p-accordionTab headerStyleClass="h-bar">
+          <ng-template pTemplate="header">
+            <div class="h-bar-title" pRipple>
+              <span>Unit Profiles</span>
             </div>
-        </ng-template>
-        <ng-template pTemplate="content">
-            <p-accordion [multiple]="true">
-                <p-accordionTab headerStyleClass="h-bar">
-                    <ng-template pTemplate="header">
-                        <div class="h-bar-title" pRipple>
-                            <span>Unit Profiles</span>
-                        </div>
-                    </ng-template>
-                    <p-table [columns]="profileColumns" [value]="profileList">
-                        <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th *ngFor="let col of columns">
-                                    {{ col.header }}
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns">
-                            <tr>
-                                <td *ngFor="let col of columns">
-                                    <span [class]="col.field !== 'title' ? 'stat-box' : 'stat-box-text'">{{
-                                        rowData[col.field] }}</span>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
+          </ng-template>
+          <p-table [columns]="profileColumns" [value]="profileList">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns">
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">
+                  <span
+                    [class]="
+                      col.field !== 'title' ? 'stat-box' : 'stat-box-text'
+                    "
+                    >{{ rowData[col.field] }}</span
+                  >
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordionTab>
+        <ng-container *ngIf="rangedWeaponList.length > 0">
+          <p-accordionTab [headerStyleClass]="'h-bar'">
+            <ng-template pTemplate="header">
+              <div class="h-bar-title" pRipple>
+                <span>Ranged Weapons</span>
+              </div>
+            </ng-template>
+            <p-table [columns]="rangedWeaponColumns" [value]="rangedWeaponList">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" style="min-width: 30%">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns" style="min-width: 30%">
+                    <span
+                      [class]="
+                        useStatBox(col.field) ? 'stat-box' : 'stat-box-text'
+                      "
+                      >{{ rowData[col.field] }}</span
+                    >
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-accordionTab>
+        </ng-container>
+        <ng-container *ngIf="meleeWeaponList.length > 0">
+          <p-accordionTab [headerStyleClass]="'h-bar'">
+            <ng-template pTemplate="header">
+              <div class="h-bar-title" pRipple>
+                <span>Melee Weapons</span>
+              </div>
+            </ng-template>
+            <p-table [columns]="meleeWeaponColumns" [value]="meleeWeaponList">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th *ngFor="let col of columns" style="min-width: 30%">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns" style="min-width: 30%">
+                    <span
+                      [class]="
+                        useStatBox(col.field, rowData[col.field])
+                          ? 'stat-box'
+                          : 'stat-box-text'
+                      "
+                      >{{ rowData[col.field] }}</span
+                    >
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-accordionTab>
+        </ng-container>
+        <ng-container>
+          <p-accordionTab
+            #abilities
+            headerStyleClass="h-bar"
+            [contentStyle]="{
+              overflow: abilities.selected ? 'visible' : 'hidden'
+            }"
+          >
+            <ng-template pTemplate="header">
+              <div class="h-bar-title" pRipple>
+                <span>Abilities</span>
+              </div>
+            </ng-template>
+            <div class="abilities">
+              <div class="grid p-1">
+                <div
+                  *ngIf="hasCoreAbilities"
+                  class="column-fixed mr-2 rounded-highlight-border"
+                >
+                  <span class="keywords">Core: </span>
+                  <ng-container *ngFor="let ability of core_abilities">
+                    <span class="keyword">{{ ability }}</span>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="hasFactionAbilities"
+                  class="column-fixed mr-2 rounded-highlight-border"
+                >
+                  <span class="keywords">Faction: </span>
+                  <ng-container *ngFor="let ability of faction_abilities">
+                    <span class="keyword">{{ ability }}</span>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="hasLeaderOptions"
+                  class="column-fixed mr-2 rounded-highlight-border"
+                >
+                  <span class="keywords">Can Lead: </span>
+                  <ng-container *ngFor="let ability of leader">
+                    <span class="keyword" (click)="linkToDatasheet(ability)">{{
+                      ability
+                    }}</span>
+                  </ng-container>
+                </div>
+              </div>
+              <p-accordion
+                *ngIf="hasUnitAbilities || hasWargearAbilities"
+                [multiple]="true"
+              >
+                <p-accordionTab
+                  *ngIf="hasUnitAbilities"
+                  [headerStyleClass]="'h-bar'"
+                >
+                  <ng-template pTemplate="header">
+                    <div class="h-bar-title" pRipple>
+                      <span>Unit Abilities</span>
+                    </div>
+                  </ng-template>
+                  <p-accordion>
+                    <p-accordion [multiple]="true">
+                      <p-accordionTab
+                        *ngFor="let ability of unitAbilities"
+                        [headerStyleClass]="'h-bar'"
+                        [header]="ability.name"
+                      >
+                        <p>{{ ability.value }}</p>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </p-accordion>
                 </p-accordionTab>
-                <ng-container *ngIf="rangedWeaponList.length > 0">
-                    <p-accordionTab [headerStyleClass]="'h-bar'">
-                        <ng-template pTemplate="header">
-                            <div class="h-bar-title" pRipple>
-                                <span>Ranged Weapons</span>
-                            </div>
-                        </ng-template>
-                        <p-table [columns]="rangedWeaponColumns" [value]="rangedWeaponList">
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" style="min-width: 30%">
-                                        {{ col.header }}
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                <tr>
-                                    <td *ngFor="let col of columns" style="min-width: 30%">
-                                        <span [class]="useStatBox(col.field) ? 'stat-box' : 'stat-box-text'">{{
-                                            rowData[col.field] }}</span>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-accordionTab>
-                </ng-container>
-                <ng-container *ngIf="meleeWeaponList.length > 0">
-                    <p-accordionTab [headerStyleClass]="'h-bar'">
-                        <ng-template pTemplate="header">
-                            <div class="h-bar-title" pRipple>
-                                <span>Melee Weapons</span>
-                            </div>
-                        </ng-template>
-                        <p-table [columns]="meleeWeaponColumns" [value]="meleeWeaponList">
-                            <ng-template pTemplate="header" let-columns>
-                                <tr>
-                                    <th *ngFor="let col of columns" style="min-width: 30%">
-                                        {{ col.header }}
-                                    </th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-columns="columns">
-                                <tr>
-                                    <td *ngFor="let col of columns" style="min-width: 30%">
-                                        <span
-                                            [class]="useStatBox(col.field, rowData[col.field]) ? 'stat-box' : 'stat-box-text'">{{
-                                            rowData[col.field] }}</span>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </p-accordionTab>
-                </ng-container>
-                <ng-container>
-                    <p-accordionTab #abilities headerStyleClass="h-bar"
-                        [contentStyle]="{overflow: abilities.selected ? 'visible' : 'hidden'}">
-                        <ng-template pTemplate="header">
-                            <div class="h-bar-title" pRipple>
-                                <span>Abilities</span>
-                            </div>
-                        </ng-template>
-                        <div class="abilities">
-                            <div class="grid p-1">
-                                <div *ngIf="hasCoreAbilities" class="column-fixed mr-2 rounded-highlight-border">
-                                    <span class="keywords">Core: </span>
-                                    <ng-container *ngFor="let ability of core_abilities">
-                                        <span class="keyword">{{ability}}</span>
-                                    </ng-container>
-                                </div>
-                                <div *ngIf="hasFactionAbilities" class="column-fixed mr-2 rounded-highlight-border">
-                                    <span class="keywords">Faction: </span>
-                                    <ng-container *ngFor="let ability of faction_abilities">
-                                        <span class="keyword">{{ability}}</span>
-                                    </ng-container>
-                                </div>
-                                <div *ngIf="hasLeaderOptions" class="column-fixed mr-2 rounded-highlight-border">
-                                    <span class="keywords">Can Lead: </span>
-                                    <ng-container *ngFor="let ability of leader">
-                                        <span class="keyword" (click)="linkToDatasheet(ability)">{{ability}}</span>
-                                    </ng-container>
-                                </div>
-                            </div>
-                            <p-accordion *ngIf="hasUnitAbilities || hasWargearAbilities" [multiple]="true">
-                                <p-accordionTab *ngIf="hasUnitAbilities" [headerStyleClass]="'h-bar'">
-                                    <ng-template pTemplate="header">
-                                        <div class="h-bar-title" pRipple>
-                                            <span>Unit Abilities</span>
-                                        </div>
-                                    </ng-template>
-                                    <p-accordion>
-                                        <p-accordion [multiple]="true">
-                                            <p-accordionTab *ngFor="let ability of unitAbilities"
-                                                [headerStyleClass]="'h-bar'" [header]="ability.name">
-                                                <p>{{ability.value}}</p>
-                                            </p-accordionTab>
-                                        </p-accordion>
-                                    </p-accordion>
-                                </p-accordionTab>
-                                <p-accordionTab *ngIf="hasWargearAbilities" [headerStyleClass]="'h-bar'">
-                                    <ng-template pTemplate="header">
-                                        <div class="h-bar-title" pRipple>
-                                            <span>Wargear Abilities</span>
-                                        </div>
-                                    </ng-template>
-                                    <p-accordion>
-                                        <p-accordion [multiple]="true">
-                                            <p-accordionTab *ngFor="let ability of wargearAbilities"
-                                                [headerStyleClass]="'h-bar'" [header]="ability.name">
-                                                <p>{{ability.value}}</p>
-                                            </p-accordionTab>
-                                        </p-accordion>
-                                    </p-accordion>
-                                </p-accordionTab>
-                            </p-accordion>
-                        </div>
-                    </p-accordionTab>
-                </ng-container>
-                <ng-container *ngIf="hasComposition">
-                    <p-accordionTab #abilities headerStyleClass="h-bar"
-                        [contentStyle]="{overflow: abilities.selected ? 'visible' : 'hidden'}">
-                        <ng-template pTemplate="header">
-                            <div class="h-bar-title" pRipple>
-                                <span>Unit Composition:</span>
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="content">
-                            <div *ngFor="let composition of unitCompositionOptions">
-                                {{composition.name}}: {{composition.value}}
-                            </div>
-                        </ng-template>
-                    </p-accordionTab>
-                </ng-container>
-                <ng-container *ngIf="hasWargearOptions">
-                    <p-accordionTab #abilities headerStyleClass="h-bar"
-                        [contentStyle]="{overflow: abilities.selected ? 'visible' : 'hidden'}">
-                        <ng-template pTemplate="header">
-                            <div class="h-bar-title" pRipple>
-                                <span>Wargear Options:</span>
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="content">
-                            <ul>
-                                <li *ngFor="let option of wargearOptions">
-                                    {{option.value}}
-                                </li>
-                            </ul>
-
-                        </ng-template>
-                    </p-accordionTab>
-                </ng-container>
-            </p-accordion>
-        </ng-template>
-        <ng-template pTemplate="footer">
-            <div class="header-footer-separated">
-                <div>
-                    <span class="keywords">Keywords: </span>
-                    <ng-container *ngFor="let keywordGroup of keywordGroups">
-                        <ng-container *ngIf="keywordGroups.length > 1">
-                            <span class="keywords">{{keywordGroup.name}}: </span>
-                            <span class="keyword" *ngFor="let keyword of keywordGroup.keywords">{{keyword}}</span>
-                        </ng-container>
-                        <ng-container *ngIf="keywordGroups.length === 1">
-                            <span class="keyword" *ngFor="let keyword of keywordGroup.keywords">{{keyword}}</span>
-                        </ng-container>
-                    </ng-container>
-                </div>
-                <div>
-                    <span class="keywords">Faction Keywords: </span>
-                    <ng-container *ngFor="let keyword of faction_keywords">
-                        <span class="keyword">{{keyword}}</span>
-                    </ng-container>
-                </div>
+                <p-accordionTab
+                  *ngIf="hasWargearAbilities"
+                  [headerStyleClass]="'h-bar'"
+                >
+                  <ng-template pTemplate="header">
+                    <div class="h-bar-title" pRipple>
+                      <span>Wargear Abilities</span>
+                    </div>
+                  </ng-template>
+                  <p-accordion>
+                    <p-accordion [multiple]="true">
+                      <p-accordionTab
+                        *ngFor="let ability of wargearAbilities"
+                        [headerStyleClass]="'h-bar'"
+                        [header]="ability.name"
+                      >
+                        <p>{{ ability.value }}</p>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </p-accordion>
+                </p-accordionTab>
+              </p-accordion>
             </div>
-        </ng-template>
-    </p-panel>
+          </p-accordionTab>
+        </ng-container>
+        <ng-container *ngIf="hasComposition">
+          <p-accordionTab
+            #abilities
+            headerStyleClass="h-bar"
+            [contentStyle]="{
+              overflow: abilities.selected ? 'visible' : 'hidden'
+            }"
+          >
+            <ng-template pTemplate="header">
+              <div class="h-bar-title" pRipple>
+                <span>Unit Composition:</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div *ngFor="let composition of unitCompositionOptions">
+                {{ composition.name }}: {{ composition.value }}
+              </div>
+            </ng-template>
+          </p-accordionTab>
+        </ng-container>
+        <ng-container *ngIf="hasWargearOptions">
+          <p-accordionTab
+            #abilities
+            headerStyleClass="h-bar"
+            [contentStyle]="{
+              overflow: abilities.selected ? 'visible' : 'hidden'
+            }"
+          >
+            <ng-template pTemplate="header">
+              <div class="h-bar-title" pRipple>
+                <span>Wargear Options:</span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <ul>
+                <li *ngFor="let option of wargearOptions">
+                  {{ option.value }}
+                </li>
+              </ul>
+            </ng-template>
+          </p-accordionTab>
+        </ng-container>
+      </p-accordion>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="header-footer-separated">
+        <div>
+          <span class="keywords">Keywords: </span>
+          <ng-container *ngFor="let keywordGroup of keywordGroups">
+            <ng-container *ngIf="keywordGroups.length > 1">
+              <span class="keywords">{{ keywordGroup.name }}: </span>
+              <span
+                class="keyword"
+                *ngFor="let keyword of keywordGroup.keywords"
+                >{{ keyword }}</span
+              >
+            </ng-container>
+            <ng-container *ngIf="keywordGroups.length === 1">
+              <span
+                class="keyword"
+                *ngFor="let keyword of keywordGroup.keywords"
+                >{{ keyword }}</span
+              >
+            </ng-container>
+          </ng-container>
+        </div>
+        <div>
+          <span class="keywords">Faction Keywords: </span>
+          <ng-container *ngFor="let keyword of faction_keywords">
+            <span class="keyword">{{ keyword }}</span>
+          </ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </p-panel>
 </ng-container>

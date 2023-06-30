@@ -37,60 +37,57 @@ import { PrimeNGConfig } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SidebarModule } from 'primeng/sidebar';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
-    // ......
-    primeConfig.ripple = true;
+  // ......
+  primeConfig.ripple = true;
 };
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent,
-        DataCardComponent
-    ],
-    imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        AppRoutingModule,
-        CommonModule,
-        PanelModule,
-        ToastModule,
-        DynamicDialogModule,
-        ButtonModule,
-        InputTextModule,
-        InputNumberModule,
-        DropdownModule,
-        MultiSelectModule,
-        AccordionModule,
-        TableModule,
-        TabViewModule,
-        RadioButtonModule,
-        InputTextareaModule,
-        CheckboxModule,
-        FormsModule,
-        CardModule,
-        TooltipModule,
-        ListboxModule,
-        RippleModule,
-        BlockUIModule,
-        PasswordModule,
-        ConfirmPopupModule,
-        ConfirmDialogModule,
-        ContextMenuModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        AutoCompleteModule,
-        SidebarModule,
-    ],
-    providers: [
-        DialogService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeAppFactory,
-            deps: [PrimeNGConfig],
-            multi: true,
-        },
-        { provide: LocationStrategy, useClass: PathLocationStrategy }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent, HomeComponent, DataCardComponent],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    CommonModule,
+    PanelModule,
+    ToastModule,
+    DynamicDialogModule,
+    ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+    DropdownModule,
+    MultiSelectModule,
+    AccordionModule,
+    TableModule,
+    TabViewModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    CheckboxModule,
+    FormsModule,
+    CardModule,
+    TooltipModule,
+    ListboxModule,
+    RippleModule,
+    BlockUIModule,
+    PasswordModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
+    ContextMenuModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    AutoCompleteModule,
+    SidebarModule,
+  ],
+  providers: [
+    DialogService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAppFactory,
+      deps: [PrimeNGConfig],
+      multi: true,
+    },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,35 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    
+    ssl_certificate /etc/letsencrypt/live/warskald.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/warskald.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    root /var/www/warskald.com/html;
+        index index.html index.htm index.nginx-debian.html;
+
+    server_name warskald.com www.warskald.com;
+
+    location /services/ {
+        include proxy_params;
+        proxy_pass http://unix:/warskald_app/ws_app/warskald_app.sock;
+    }
+}
+
+server {
+    if ($host = www.warskald.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = warskald.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+
+    server_name warskald.com www.warskald.com;
+}
