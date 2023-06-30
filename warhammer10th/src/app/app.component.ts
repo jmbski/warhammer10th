@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { DataService } from './services/data-service';
-import { DataSheet, ListItem, Profile, Weapon } from './data/types';
-import { PrimeNGConfig } from 'primeng/api';
+import { Component } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { DataService } from "./services/data-service";
+import { Any, DataSheet, ListItem, Profile, Weapon } from "./data/types";
 
 export const LoadingSubject: BehaviorSubject<boolean> = new BehaviorSubject(
   false
@@ -16,20 +15,20 @@ export const AllProfiles: BehaviorSubject<Profile[]> = new BehaviorSubject<
 export const AllDataSheets: BehaviorSubject<DataSheet[]> = new BehaviorSubject<
   DataSheet[]
 >([]);
-export const ArmyData: BehaviorSubject<any> = new BehaviorSubject<any>({});
+export const ArmyData: BehaviorSubject<Any> = new BehaviorSubject<Any>({});
 export const ArmyOptions: BehaviorSubject<ListItem[]> = new BehaviorSubject<
   ListItem[]
 >([]);
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.dataService.loadJsonFile('../assets/data-files/armies.json');
+    this.dataService.loadJsonFile("../assets/data-files/armies.json");
   }
 }
