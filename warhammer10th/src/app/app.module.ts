@@ -37,57 +37,82 @@ import { PrimeNGConfig } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SidebarModule } from 'primeng/sidebar';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { OAuthModule, OAuthModuleConfig } from 'angular-oauth2-oidc';
+import { OktaAuth } from '@okta/okta-auth-js';
+import { RedirectComponent } from './components/redirect/redirect.component';
+import { LoginComponent } from './components/login/login.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { OktaAuthGuard, OktaAuthModule, OktaCallbackComponent } from '@okta/okta-angular';
+import { RouterModule, Routes } from '@angular/router';
 
 const initializeAppFactory = (primeConfig: PrimeNGConfig) => () => {
-  // ......
-  primeConfig.ripple = true;
+    // ......
+    primeConfig.ripple = true;
 };
+
+const oktaAuth = new OktaAuth({
+    issuer: 'https://dev-36530206.okta.com/oauth2/default',
+    clientId: '0oaa7ixtbtwQnVnpA5d7',
+    redirectUri: 'http://localhost:4200/login/callback',
+
+  });
+  const routes: Routes = [
+    { path: 'home', component: HomeComponent, canActivate: [OktaAuthGuard] },
+    { path: 'redirect', component: RedirectComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'login/callback', component: OktaCallbackComponent },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: '**', redirectTo: 'home' }
+];
 @NgModule({
-  declarations: [AppComponent, HomeComponent, DataCardComponent],
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    CommonModule,
-    PanelModule,
-    ToastModule,
-    DynamicDialogModule,
-    ButtonModule,
-    InputTextModule,
-    InputNumberModule,
-    DropdownModule,
-    MultiSelectModule,
-    AccordionModule,
-    TableModule,
-    TabViewModule,
-    RadioButtonModule,
-    InputTextareaModule,
-    CheckboxModule,
-    FormsModule,
-    CardModule,
-    TooltipModule,
-    ListboxModule,
-    RippleModule,
-    BlockUIModule,
-    PasswordModule,
-    ConfirmPopupModule,
-    ConfirmDialogModule,
-    ContextMenuModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    AutoCompleteModule,
-    SidebarModule,
-  ],
-  providers: [
-    DialogService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAppFactory,
-      deps: [PrimeNGConfig],
-      multi: true,
-    },
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, HomeComponent, DataCardComponent, RedirectComponent, LoginComponent, PageNotFoundComponent],
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule,
+        //AppRoutingModule,
+        CommonModule,
+        PanelModule,
+        ToastModule,
+        DynamicDialogModule,
+        ButtonModule,
+        InputTextModule,
+        InputNumberModule,
+        DropdownModule,
+        MultiSelectModule,
+        AccordionModule,
+        TableModule,
+        TabViewModule,
+        RadioButtonModule,
+        InputTextareaModule,
+        CheckboxModule,
+        FormsModule,
+        CardModule,
+        TooltipModule,
+        ListboxModule,
+        RippleModule,
+        BlockUIModule,
+        PasswordModule,
+        ConfirmPopupModule,
+        ConfirmDialogModule,
+        ContextMenuModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        AutoCompleteModule,
+        SidebarModule,
+        RouterModule.forRoot(routes),
+        OAuthModule.forRoot(),
+        OktaAuthModule.forRoot({ oktaAuth }),
+    ],
+    providers: [
+        DialogService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeAppFactory,
+            deps: [PrimeNGConfig],
+            multi: true,
+        },
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

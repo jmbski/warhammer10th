@@ -13,6 +13,7 @@ from flask_cors import CORS, cross_origin
 # from .services.database_service import *
 from .services.DB_Service import *
 from .services.Common import *
+from .services.DataTypes import *
 from requests import get
 
 import pymysql
@@ -45,7 +46,7 @@ def testData():
 def check_user():
     httpResponse = HTTPResponse(None)
     user = User(request.get_json())
-
+    
     connection_settings = ConnectionSettings(env_props)
     conn = pymysql.connect(
         user=connection_settings.user,

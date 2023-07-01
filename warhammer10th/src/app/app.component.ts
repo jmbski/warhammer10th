@@ -1,35 +1,46 @@
-import { Component } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { DataService } from "./services/data-service";
-import { DataObject, DataSheet, ListItem, Profile, Weapon } from "./data/types";
-
+import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { DataService } from './services/data-service';
+import {
+    ArmyList,
+    DataObject,
+    DataSheet,
+    ListItem,
+    Profile,
+    Weapon,
+} from './data/types';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 export const LoadingSubject: BehaviorSubject<boolean> = new BehaviorSubject(
-  false
+    false
 );
 export const AllWeapons: BehaviorSubject<Weapon[]> = new BehaviorSubject<
-  Weapon[]
+    Weapon[]
 >([]);
 export const AllProfiles: BehaviorSubject<Profile[]> = new BehaviorSubject<
-  Profile[]
+    Profile[]
 >([]);
 export const AllDataSheets: BehaviorSubject<DataSheet[]> = new BehaviorSubject<
-  DataSheet[]
+    DataSheet[]
 >([]);
-export const ArmyData: BehaviorSubject<DataObject> =
-  new BehaviorSubject<DataObject>({});
+export const ArmyData: BehaviorSubject<ArmyList> =
+    new BehaviorSubject<ArmyList>({});
 export const ArmyOptions: BehaviorSubject<ListItem[]> = new BehaviorSubject<
-  ListItem[]
+    ListItem[]
 >([]);
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private dataService: DataService) {}
+    constructor(
+        private dataService: DataService
+    ) {
+    }
 
-  ngOnInit() {
-    this.dataService.loadJsonFile("../assets/data-files/armies.json");
-  }
+    ngOnInit() {
+        this.dataService.loadJsonFile('../assets/data-files/armies.json');
+    }
 }
